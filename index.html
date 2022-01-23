@@ -26,11 +26,36 @@
     <header class="jumbotron">
       <h1 class="display-3">Work Day Scheduler</h1>
       <p class="lead">A simple calendar app for scheduling your work day</p>
-      <p id="currentDay" class="lead"></p>
+      <p id="currentDay" class="lead"></p><span id="date-ordinal"></span>
     </header>
-    <div class="container">
-      <!-- Timeblocks go here -->
-    </div>
+    <section class="container">
+      <table class="table">
+        <thead>
+          <tr>
+            <th class="small-width" scope="col">Time</th>
+            <th scope="col">Event</th>
+            <th class="small-width" scope="col">Save</th>
+          </tr>
+        </thead>
+        <tbody id="planner-table">
+          <tr>
+            <th scope="row">9:00am</th>
+            <td class="plan-event"></td>
+            <td></td>
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td>Jacob</td>
+
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td>Larry</td>
+
+          </tr>
+        </tbody>
+      </table>
+    </section>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
