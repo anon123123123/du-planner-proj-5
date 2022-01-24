@@ -1,43 +1,55 @@
-// 
+// Globals 
 const closeModal = $("#close-modal")
+const planClassSelect = $(".plan-event")
 let targetEventId = ""
 
-// Function to get date and set it 
-const setDate = async () => {
-    const today = new Date();
-    const dayIndex = today.getDay();
-    const dayList = ["Sunday", "Monday", "Tuesday", "Wednesday ", "Thursday", "Friday", "Saturday"];
-    // Gets today's day e.g., Sunday 
-    const currentDay = dayList[dayIndex]
-    const month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    const monthIndex = today.getMonth();
-    const currentMonth = month[monthIndex]
-    // Thanks to https://stackoverflow.com/questions/15397372/javascript-new-date-ordinal-st-nd-rd-th/15397495 for next const 
-    const nth = function (d) {
-        if (d > 3 && d < 21) return 'th';
-        switch (d % 10) {
-            case 1: return "st";
-            case 2: return "nd";
-            case 3: return "rd";
-            default: return "th";
-        }
-    }
-    // Sets Date to DOM
-    $("#currentDay").text(`${currentDay}, ${currentMonth} ${today.getDate()}`)
-    $("#date-ordinal").text(nth(today.getDate()))
+// Call moment and get hour 
+let now = moment();
+let hour = now.hour();
+if (hour >= 12) {
+    hour = hour - 12 + "PM"
+    console.log(hour)
+} else {
+    hour = hour + "AM"
+}
+// Sets date to Dom
+$("#currentDay").text(`${now.format('dddd, MMMM Do YYYY')}`)
+
+const writeLStoEvents = async () => {
+    // Check if LS id matches data id 
 }
 
-setDate();
+// Checks if LS exists
+if(localStorage.plans) {
+    writeLStoEvents()
+}
+
+// Local storage handler 
+const addToLS = async (textData, x) => {
+    let targetId = x
+    let plans = {}
+    plans[targetId] = textData 
+    if(localStorage.plans) {
+        let old = JSON.parse(localStorage.getItem('plans'))
+        let newObj = {...old,...plans}
+        localStorage.setItem('plans',JSON.stringify(newObj))
+    } else {
+        localStorage.setItem('plans',JSON.stringify(plans))
+    }
+}
+
 
 // Adds text to event upon close of modal
 const addTextFromModal = async (e) => {
     let eventTextEl = $('.plan-event[data-id="' + targetEventId +'"]')[0]
     let textData = $("#modal-textarea")[0].value
-    eventTextEl.innerText = textData 
+    eventTextEl.innerText = textData
+    addToLS(textData, targetEventId) 
 }
+// Listen for close button on event
 closeModal.on('click', addTextFromModal)
 
 // Hacky way to grab data id 
-$(".plan-event").on('click', function(e) {
+planClassSelect.on('click', function(e) {
     targetEventId = $(e.target).attr('data-id')
 })

@@ -72,13 +72,9 @@ textarea {
 
 /* Custom CSS */
 .small-width {
-  width: 15%;
+  width: 10%;
 }
 
 .plan-event:hover{
   background-color: burlywood;
-}
-
-#currentDay {
-  display:inline
 }
