@@ -1,5 +1,6 @@
 // 
-const plannerEl = $('#planner-table')
+const closeModal = $("#close-modal")
+let targetEventId = ""
 
 // Function to get date and set it 
 const setDate = async () => {
@@ -22,14 +23,21 @@ const setDate = async () => {
         }
     }
     // Sets Date to DOM
-    $('#currentDay').text(`${currentDay}, ${currentMonth} ${today.getDate()}`)
-    $('#date-ordinal').text(nth(today.getDate()))
+    $("#currentDay").text(`${currentDay}, ${currentMonth} ${today.getDate()}`)
+    $("#date-ordinal").text(nth(today.getDate()))
 }
 
 setDate();
 
-// Event listen for adding events in planner 
-plannerEl.on('click', '.plan-event',function (e) {
-    const item = $(e.target)
-    alert(item)
-  })
+// Adds text to event upon close of modal
+const addTextFromModal = async (e) => {
+    let eventTextEl = $('.plan-event[data-id="' + targetEventId +'"]')[0]
+    let textData = $("#modal-textarea")[0].value
+    eventTextEl.innerText = textData 
+}
+closeModal.on('click', addTextFromModal)
+
+// Hacky way to grab data id 
+$(".plan-event").on('click', function(e) {
+    targetEventId = $(e.target).attr('data-id')
+})
