@@ -1,8 +1,5 @@
-// Call moment and get hour 
-let now = moment()
-
 // Sets date to Dom
-$("#currentDay").text(`${now.format('dddd, MMMM Do YYYY')}`)
+$("#currentDay").text(`${moment().format('dddd, MMMM Do YYYY')}`)
 
 // Check current time to time on events (9-5) 
 const plannerAvailability = async() => {
@@ -20,23 +17,19 @@ const plannerAvailability = async() => {
         }
     })
 } 
-plannerAvailability()
+
 // Handler to write events from LS to DOM
 const writeLStoEvents = async() => {
     const lsObj = JSON.parse(localStorage.plans)
     const idArray = ["t9AM", "t10AM", "t11AM", "t12PM", "t1PM", "t2PM", "t3PM", "t4PM", "t5PM"]
-    // Checks each Id if in LS adds to DOM
+    // Checks each Id if in LS adds saved text to DOM where Id matches
     idArray.forEach(element => {
         if(lsObj[element]){
-            let matchedId = $(".plan-event[data-id=" + element + "]")[0]
-            matchedId.innerText = lsObj[element]
+            let matchedId = $(".plan-event[data-id=" + element + "]")
+            matchedId[0].innerText = lsObj[element]
+            matchedId.siblings('.plan-save').find('img').attr("src", "assets/svg/lock.svg");
         }
     })
-}
-
-// Checks if LS exists if yes write to DOM
-if(localStorage.plans) {
-    writeLStoEvents()
 }
 
 // Local storage handler for saving events
@@ -59,6 +52,7 @@ const saveData = async(e) => {
     const targetEventId = eventElement.attr('data-id')
     const textData = eventElement[0].innerText
     addToLS(targetEventId,textData)
+    eventElement.siblings('.plan-save').find('img').attr("src", "assets/svg/lock.svg");
     $('.toast').toast({delay: 2500});
     $('.toast').toast('show')
 }
@@ -82,4 +76,13 @@ $('#plannerModal').on('hidden.bs.modal', function () {
     matchedId.textContent = textData
 });
 
+// Save Event (click on SVG)
 $('.save-svg').on('click', saveData)
+
+// Checks if LS Object exists if yes write to DOM
+if(localStorage.plans) {
+    writeLStoEvents()
+}
+
+// Init Func
+plannerAvailability()
