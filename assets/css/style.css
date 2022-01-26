@@ -75,10 +75,24 @@ textarea {
   width: 10%;
 }
 
+.past-time {
+  background-color: rgb(137, 132, 132);
+}
+
+.current-time {
+  background-color: rgb(252, 62, 62);
+}
+
+.future-time {
+  background-color: rgb(37, 255, 81);
+}
+
 .plan-event:hover{
   background-color: burlywood;
 }
 
 .plan-save img:hover{
-border: solid black;
+  box-shadow:  0px 33px 25px 0 #000, 
+  0 26px 15px 0px #ccc;
 }
+

@@ -1,15 +1,26 @@
-
 // Call moment and get hour 
-let now = moment();
-let hour = now.hour();
-if (hour >= 12) {
-    hour = hour - 12 + "PM"
-} else {
-    hour = hour + "AM"
-}
+let now = moment()
+
 // Sets date to Dom
 $("#currentDay").text(`${now.format('dddd, MMMM Do YYYY')}`)
 
+// Check current time to time on events (9-5) 
+const plannerAvailability = async() => {
+    $('.time-tbl').each(function (i,e) {
+        const currentHour = moment().format('H')
+        const prepCurrentHour = moment(currentHour, 'H')
+        const hour = moment($(this)[0].innerText, 'LT').format('H')
+        const prepHourinTable = moment(hour, 'H')
+        if(prepCurrentHour.isAfter(prepHourinTable)) {
+            $(this).siblings('.plan-event').addClass('past-time')
+        } else if (currentHour === hour) {
+            $(this).siblings('.plan-event').addClass('current-time')
+        } else {
+            $(this).siblings('.plan-event').addClass('future-time')
+        }
+    })
+} 
+plannerAvailability()
 // Handler to write events from LS to DOM
 const writeLStoEvents = async() => {
     const lsObj = JSON.parse(localStorage.plans)
@@ -51,8 +62,7 @@ const saveData = async(e) => {
     addToLS(targetEventId,textData)
 }
 
-$('.save-svg').on('click', saveData)
-
+// ### Event Handlers ###
 // Modal for event text handler 
 $('#plannerModal').on('show.bs.modal', function (event) {
     $('#event-text')[0].value = ""
@@ -70,3 +80,5 @@ $('#plannerModal').on('hidden.bs.modal', function () {
     const textData = $('#event-text')[0].value
     matchedId.textContent = textData
 });
+
+$('.save-svg').on('click', saveData)
