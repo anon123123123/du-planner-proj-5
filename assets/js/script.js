@@ -53,13 +53,14 @@ const addToLS = async(targetId, textData) => {
     }
 }
 
-
 // Handler for "SVG" save option 
 const saveData = async(e) => {
     const eventElement = $(e.target).parent().siblings('.plan-event')
     const targetEventId = eventElement.attr('data-id')
     const textData = eventElement[0].innerText
     addToLS(targetEventId,textData)
+    $('.toast').toast({delay: 2500});
+    $('.toast').toast('show')
 }
 
 // ### Event Handlers ###

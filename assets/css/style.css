@@ -86,6 +86,11 @@ textarea {
 .future-time {
   background-color: rgb(37, 255, 81);
 }
+.toast-custom {
+  position: fixed; 
+  right: 20%; 
+  top: 30px; 
+}
 
 .plan-event:hover{
   background-color: burlywood;
