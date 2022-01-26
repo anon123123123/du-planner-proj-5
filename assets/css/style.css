@@ -78,3 +78,7 @@ textarea {
 .plan-event:hover{
   background-color: burlywood;
 }
+
+.plan-save img:hover{
+border: solid black;
+}
